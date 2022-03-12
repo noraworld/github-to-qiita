@@ -72,8 +72,10 @@ runs:
     - name: Update mapping file
       # https://github.com/actions/checkout/tree/2d1c1198e79c30cca5c3957b1e3b65ce95b5356e#push-a-commit-using-the-built-in-token
       run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git commit -am "Update mapping file"
-        git push
+        if [ -n "$(git status --porcelain)" ]; then
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git commit -am "Update mapping file"
+          git push
+        fi
       shell: sh
