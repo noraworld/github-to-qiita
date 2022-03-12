@@ -1,5 +1,5 @@
 # GitHub-to-Qiita
-TBD
+TBA
 
 ```yaml
 name: "GitHub to Qiita"
