@@ -37,6 +37,12 @@ runs:
         ruby-version: "3.1"
         bundler-cache: true
 
+    - name: Install RubyGems
+      run: bundle install --gemfile=$GITHUB_ACTION_PATH/Gemfile
+      shell: sh
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+
     - id: get-added-files
       name: Get added files
       run: echo "::set-output name=files::$(git diff --name-only --diff-filter=A ${{ github.event.before }} ${{ github.sha }} | egrep "^${{ inputs.dir }}/" | xargs)"
@@ -53,11 +59,12 @@ runs:
       shell: sh
 
     - name: Publish to Qiita
-      run: ruby main.rb
+      run: ruby $GITHUB_ACTION_PATH/main.rb
       shell: sh
       env:
         QIITA_ACCESS_TOKEN: ${{ inputs.qiita_access_token }}
         MAPPING_FILEPATH: ${{ inputs.mapping_filepath }}
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
         ADDED_FILES: ${{ steps.get-added-files.outputs.files }}
         MODIFIED_FILES: ${{ steps.get-modified-files.outputs.files }}
         DELETED_FILES: ${{ steps.get-deleted-files.outputs.files }}
