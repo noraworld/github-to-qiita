@@ -1,0 +1,72 @@
+name: "GitHub to Qiita"
+description: "Publish development articles to Qiita automatically"
+author: "noraworld"
+branding:
+  icon: search
+  color: green
+
+inputs:
+  dir:
+    description: "Specify a directory in which files you want to track and publish to Qiita"
+    required: true
+  qiita_access_token:
+    description: "Specify your Qiita access token"
+    required: true
+  mapping_filepath:
+    description: "Specify any file path in which you want to put the mapping file"
+    required: false
+    default: "mapping.txt"
+  added_files:
+    description: "Get added files"
+  modified_files:
+    description: "Get modified files"
+  deleted_files:
+    description: "Get deleted files"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Enable Git operation
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: "3.1"
+        bundler-cache: true
+
+    - id: get-added-files
+      name: Get added files
+      run: echo "::set-output name=files::$(git diff --name-only --diff-filter=A ${{ github.event.before }} ${{ github.sha }} | egrep "^${{ inputs.dir }}/" | xargs)"
+      shell: sh
+
+    - id: get-modified-files
+      name: Get modified files
+      run: echo "::set-output name=files::$(git diff --name-only --diff-filter=M ${{ github.event.before }} ${{ github.sha }} | egrep "^${{ inputs.dir }}/" | xargs)"
+      shell: sh
+
+    - id: get-deleted-files
+      name: Get deleted files
+      run: echo "::set-output name=files::$(git diff --name-only --diff-filter=D ${{ github.event.before }} ${{ github.sha }} | egrep "^${{ inputs.dir }}/" | xargs)"
+      shell: sh
+
+    - name: Publish to Qiita
+      run: ruby main.rb
+      shell: sh
+      env:
+        QIITA_ACCESS_TOKEN: ${{ inputs.qiita_access_token }}
+        MAPPING_FILEPATH: ${{ inputs.mapping_filepath }}
+        ADDED_FILES: ${{ steps.get-added-files.outputs.files }}
+        MODIFIED_FILES: ${{ steps.get-modified-files.outputs.files }}
+        DELETED_FILES: ${{ steps.get-deleted-files.outputs.files }}
+
+    - name: Update mapping file
+      # https://github.com/actions/checkout/tree/2d1c1198e79c30cca5c3957b1e3b65ce95b5356e#push-a-commit-using-the-built-in-token
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git commit -am "Update mapping file"
+        git push
+      shell: sh
