@@ -1,0 +1,4 @@
+# For local development
+.env
+mapping.txt
+articles/
