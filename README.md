@@ -20,9 +20,11 @@ Enter the following information, and click the `Generate token` button.
 | Description | Specify a description so you are easy to understand for what the access token is used later | false | `GitHub to Qiita`              |
 | Scopes      | Specify scopes that describe what privilege the access token has                            | true  | `read_qiita` and `write_qiita` |
 
-After generating your new access token, it should be going to appear on your screen. Then copy it. Note that it can be shown only once. If you lose it, regenerate it again.
+After generating your new access token, it should be going to appear on your screen. Then copy it.
 
 ![](screenshots/qiita_access_token.png)
+
+Note that it can be shown only once. If you lose it, regenerate it again.
 
 **WARNING:** The above screen shot shows a dummy access token, not a real access token. You should not take a screen shot including your access token, and must not share it with other people. Please be careful.
 
