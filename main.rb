@@ -9,9 +9,16 @@ unless ENV['CI']
   Dotenv.load
 end
 
+require 'json'
 require 'yaml'
+require_relative 'lib/error'
+require_relative 'lib/validator'
 require_relative 'lib/article'
 require_relative 'lib/qiita'
+
+include Validator
+
+Validator.env
 
 ENV['ADDED_FILES']&.split&.each do |path|
   article = Article.new(path: path)

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'json'
 require 'faraday'
 
 class Qiita
@@ -12,6 +11,9 @@ class Qiita
   # @mode:    String: A value to indicate that an article is created, updated, or deleted
   # @path:    String: A path where an article exists
   def initialize(content:, header:, mode:, path:)
+    Validator.header(header)
+    Validator.mode(mode)
+
     @content = content
     @header = header
     @mode = mode
@@ -35,11 +37,16 @@ class Qiita
       connection.patch(&request_params)
     end
 
+    raise QiitaAPIError.new(response: response) unless response.status >= 200 && response.status < 300
+
     JSON.parse(response.body)
   end
 
   # Update a mapping file
   def update_mapping_file(item_id)
+    raise CannotGetQiitaItemIDError if item_id.nil? || item_id.empty?
+    Validator.item_id(item_id)
+
     File.open(ENV['MAPPING_FILEPATH'], 'a') do |file|
       file.puts "#{@path}, #{item_id}"
     end
@@ -99,6 +106,14 @@ class Qiita
 
   # Get a Qiita item ID corresponding to an article path
   def item_id
+    # An error handling
+    raise QiitaItemIDNotFoundError if mappings.grep(/\A^#{Regexp.escape(@path)}/).empty?
+    raise QiitaItemIDDuplicationError if mappings.grep(/\A^#{Regexp.escape(@path)}/).length != 1
+    raise QiitaItemIDNotMatchedError if mappings.grep(/\A^#{Regexp.escape(@path)}/).first.split.length != 2
+    if mappings.grep(/\A^#{Regexp.escape(@path)}/).first.split.last.match(/\A[0-9a-f]{20}\z/).nil?
+      raise InvalidQiitaItemIDError
+    end
+
     mappings.grep(/\A^#{Regexp.escape(@path)}/).first.split.last
   end
 
