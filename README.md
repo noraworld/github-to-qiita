@@ -89,7 +89,49 @@ You can see whether your workflow succeeded at `https://github.com/<USERNAME>/<R
 
 
 ## How to contribute
-TBA
+The files and directories for a local development are as follow.
+
+* `.env`
+* `mapping.txt`
+* `articles/`
+
+These are ignored for Git (described in `.gitignore`), so you can create sample data and use them to test how it works.
+
+**WARNING:** The `published` key in a YAML header in a sample article (files in `articles/`) should be always set to `false`, or your sample article will be exposed publicly!
+
+```yaml
+---
+title: "Test"
+topics: ["Foo", "Bar", "Baz"]
+published: false # <= IMPORTANT!!!
+---
+
+# Test
+This is a test article.
+```
+
+### Environment variables
+You need to set the following environment variables for a local debug.
+
+Here is a sample `.env` file.
+
+```ruby
+ADDED_FILES="articles/test01.md"
+MODIFIED_FILES="articles/test02.md"
+MAPPING_FILEPATH="mapping.txt"
+QIITA_ACCESS_TOKEN="7f6c7aec310ded84ae3acfe8f920cb1c7556c7d3" # THIS IS A SAMPLE!!
+```
+
+| Environment Variable Name | Description                                                | Required |
+| ------------------------- | ---------------------------------------------------------- | -------- |
+| `ADDED_FILES`             | Paths of articles that will be published newly             | false    |
+| `MODIFIED_FILES`          | Paths of articles that will be modified                    | false    |
+| `MAPPING_FILEPATH`        | A filepath to which file it writes the mapping information | true     |
+| `QIITA_ACCESS_TOKEN`      | Your Qiita access token (for development)                  | true     |
+
+**NOTE:** It is highly recommended to use the Qiita access token that is different from one for a production use.
+
+You can omit either `ADDED_FILES` or `MODIFIED_FILES`, but if both are omitted, it does nothing.
 
 
 
