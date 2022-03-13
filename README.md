@@ -86,7 +86,7 @@ Your Markdown articles need to include a YAML header like this.
 
 ```yaml
 ---
-title: "Your awesome article"
+title: "Your awesome title"
 topics: ["GitHub Actions", "Ruby", "YAML"]
 published: true
 ---
@@ -94,11 +94,11 @@ published: true
 Your article starts here.
 ```
 
-| Key         | Description                                                     | Type                                 | Constraint   |
-| ----------- | --------------------------------------------------------------- | ------------------------------------ | ------------ |
-| `title`     | Specify a title of an article                                   | String                               |              |
-| `topics`    | Specify tags of an article that describes its attributes        | Array[String, <String, String, ...>] | Up to 5 tags |
-| `published` | Specify whether an article will be posted publicly or privately | Boolean                              |              |
+| Key         | Description                                                     | Type                                   | Constraint   |
+| ----------- | --------------------------------------------------------------- | -------------------------------------- | ------------ |
+| `title`     | Specify a title of an article                                   | `String`                               |              |
+| `topics`    | Specify tags of an article that describes its attributes        | `Array[String, <String, String, ...>]` | Up to 5 tags |
+| `published` | Specify whether an article will be posted publicly or privately | `Boolean`                              |              |
 
 Note that your article file must start with `---`.
 
