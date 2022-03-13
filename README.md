@@ -81,6 +81,31 @@ That’s all!
 
 
 
+## Syntax
+Your Markdown articles need to include a YAML header like this.
+
+```yaml
+---
+title: "Your awesome article"
+topics: ["GitHub Actions", "Ruby", "YAML"]
+published: true
+---
+
+Your article starts here.
+```
+
+| Key         | Description                                                     | Type                                 | Constraint   |
+| ----------- | --------------------------------------------------------------- | ------------------------------------ | ------------ |
+| `title`     | Specify a title of an article                                   | String                               |              |
+| `topics`    | Specify tags of an article that describes its attributes        | Array[String, <String, String, ...>] | Up to 5 tags |
+| `published` | Specify whether an article will be posted publicly or privately | Boolean                              |              |
+
+Note that your article file must start with `---`.
+
+Additional keys and values are acceptable. They are simply ignored.
+
+
+
 ## How it works
 Pushing your articles in the specific directory (`articles` directory in the sample workflow above) into the specific branch (`main` branch in the sample workflow above), it starts to work automatically. There is no need to do the further operation.
 
@@ -106,12 +131,11 @@ topics: ["Foo", "Bar", "Baz"]
 published: false # <= IMPORTANT!!!
 ---
 
-# Test
 This is a test article.
 ```
 
 ### Environment variables
-You need to set the following environment variables for a local debug.
+You need to set the following environment variables for a local debug. Note that the environment variables in `.env` are loaded only when a development environment.
 
 Here is a sample `.env` file.
 
