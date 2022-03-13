@@ -16,6 +16,8 @@ class Qiita
     @header = header
     @mode = mode
     @path = path
+
+    create_mapping_file_if_not_exists
   end
 
   # Publish an article to Qiita
@@ -112,5 +114,9 @@ class Qiita
     File.open(ENV['MAPPING_FILEPATH'], 'r') do |file|
       file.read.split("\n")
     end
+  end
+
+  def create_mapping_file_if_not_exists
+    File.new(ENV['MAPPING_FILEPATH'], 'a') if File.exist?(ENV['MAPPING_FILEPATH'])
   end
 end
