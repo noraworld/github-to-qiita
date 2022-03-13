@@ -1,5 +1,4 @@
 # GitHub-to-Qiita
-TBA
 
 ```yaml
 name: "GitHub to Qiita"
@@ -18,6 +17,12 @@ jobs:
           dir: "articles"
           qiita_access_token: ${{ secrets.QIITA_ACCESS_TOKEN }}
 ```
+
+## Setup
+TBA
+
+## How to contribute
+TBA
 
 ## Important notes
 The old implementation has moved to [noraworld/github-to-qiita-server](https://github.com/noraworld/github-to-qiita-server), and it is no longer supported.
