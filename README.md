@@ -1,8 +1,13 @@
 # GitHub-to-Qiita
+GitHub-to-Qiita lets you integrate your Qiita articles with your GitHub repository. Setting up GitHub-to-Qiita and pushing your articles into your GitHub repository, they will be published to [Qiita](https://qiita.com) automatically.
+
+Make your writing efficient and save your time with GitHub-to-Qiita! 😉
 
 
 
 ## Setup
+The setup is easy. You can setup a workflow by following the instructions below.
+
 ### Generate a Qiita access token
 Navigate to [the Qiita access token generation page](https://qiita.com/settings/tokens/new).
 
@@ -19,7 +24,7 @@ After generating your new access token, it should be going to appear on your scr
 
 ![](screenshots/qiita_access_token.png)
 
-**WARNING:** The above screen shot shows a dummy access token, not a real access token. You should not take a screen shot, and must not share it with other people. Please be careful.
+**WARNING:** The above screen shot shows a dummy access token, not a real access token. You should not take a screen shot including your access token, and must not share it with other people. Please be careful.
 
 ### Set your Qiita access token to your repository
 Navigate to the Actions secrets creation page, which is accessible at `https://github.com/<USERNAME>/<REPONAME>/settings/secrets/actions/new`.
@@ -68,7 +73,7 @@ Replace a part of the above YAML code with the following.
 
 [^1]: Only in case you set the secret environment variable name as `QIITA_ACCESS_TOKEN` at the previous step.
 
-**WARNING:** Please do not set the version to `@main` at the `jobs.qiita.steps[*].uses` section for a production use because the specification is subject to change, and the latest codes potentially contain bugs. It is highly recommended to set the latest tagged version, which can be accessible at [Tags page](/tags).
+**WARNING:** Please do not set the version to `@main` at the `jobs.qiita.steps[*].uses` section for a production use because the specification is subject to change, and the latest codes potentially contain bugs. It is highly recommended to set the latest tagged version, which can be accessible at [Tags page](./tags).
 
 ---
 
@@ -77,7 +82,7 @@ That’s all!
 
 
 ## How it works
-Pushing your articles into the specified branch (`main` branch in the sample workflow above), it starts to work automatically. There is no need to do the further operation.
+Pushing your articles in the specific directory (`articles` directory in the sample workflow above) into the specific branch (`main` branch in the sample workflow above), it starts to work automatically. There is no need to do the further operation.
 
 You can see whether your workflow succeeded at `https://github.com/<USERNAME>/<REPONAME>/actions/workflows/qiita.yml`.
 
@@ -89,4 +94,9 @@ TBA
 
 
 ## Notice
-The old implementation has moved to [noraworld/github-to-qiita-server](https://github.com/noraworld/github-to-qiita-server), and it is no longer supported.
+The old implementation has moved to [noraworld/github-to-qiita-server](https://github.com/noraworld/github-to-qiita-server), and it is no longer maintained.
+
+
+
+## License
+All codes of this repository are available under the MIT license. See the [LICENSE](/LICENSE) for more information.
