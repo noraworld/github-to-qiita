@@ -73,7 +73,7 @@ Replace a part of the above YAML code with the following.
 
 [^1]: Only in case you set the secret environment variable name as `QIITA_ACCESS_TOKEN` at the previous step.
 
-**WARNING:** Please do not set the version to `@main` at the `jobs.qiita.steps[*].uses` section for a production use because the specification is subject to change, and the latest codes potentially contain bugs. It is highly recommended to set the latest tagged version, which can be accessible at the [Tags page](tags).
+**WARNING:** Please do not set the version to `@main` at the `jobs.qiita.steps[*].uses` section for a production use because the specification is subject to change, and the latest codes potentially contain bugs. It is highly recommended to set the latest tagged version, which can be accessible at the [Tags page](/../../tags).
 
 ---
 
