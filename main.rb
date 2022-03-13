@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Load if it is not executed via GitHub Actions
+# Load if it is NOT executed via GitHub Actions
 #   https://docs.github.com/en/actions/learn-github-actions/environment-variables#default-environment-variables
 unless ENV['CI']
   require 'pry'
