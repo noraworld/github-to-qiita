@@ -59,6 +59,7 @@ class Qiita
       request.url(request_url)
       request.headers['Authorization'] = "Bearer #{ENV['QIITA_ACCESS_TOKEN']}"
       request.headers['Content-Type'] = 'application/json'
+      request.headers['User-Agent'] = 'GitHub to Qiita'
       request.body = request_body
     end
   end
