@@ -74,9 +74,10 @@ class QiitaAPIError < StandardError
   def initialize(msg: 'A Qiita API returns a non-succeeded status.', data: nil)
     unless data.nil?
       msg += " Status code: #{data[:response].status}," \
+             " Request headers: #{conceal_token(data[:response].env.request_headers)}," \
+             " Request body: #{JSON.parse(data[:response].env.request_body)}," \
+             " Response headers: #{data[:response].headers}," \
              " Response body: #{JSON.parse(data[:response].body)}," \
-             " Content: #{truncate_content(data[:content])}," \
-             " Header: #{data[:header]}," \
              " Mode: \"#{data[:mode]}\"," \
              " Path: \"#{data[:path]}\""
     end
@@ -86,9 +87,16 @@ class QiitaAPIError < StandardError
 
   private
 
-  def truncate_content(content)
-    omission = content.length > TRUNCATED_LENGTH ? OMISSION : ''
+  def conceal_token(headers)
+    # Do NOT return this value because Hash#delete returns a DELETED value
+    #
+    # { foo: 42, bar: 'Lorem ipsum', want_to_delete: 'deleted_value' }.delete(:want_to_delete)
+    # => "deleted_value"
+    #
+    # Do return a receiver object instead
+    #
+    headers.delete('Authorization')
 
-    "#{content.to_json.chop[0..TRUNCATED_LENGTH]}#{omission}\""
+    headers
   end
 end
