@@ -37,7 +37,16 @@ class Qiita
       connection.patch(&request_params)
     end
 
-    raise QiitaAPIError.new(response: response) unless response.status >= 200 && response.status < 300
+    unless response.status >= 200 && response.status < 300
+      raise QiitaAPIError.new(
+        data: {
+          response: response,
+          header: @header,
+          mode: @mode,
+          path: @path
+        }
+      )
+    end
 
     JSON.parse(response.body)
   end

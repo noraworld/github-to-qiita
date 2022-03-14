@@ -68,8 +68,14 @@ class InvalidQiitaItemIDError < StandardError
 end
 
 class QiitaAPIError < StandardError
-  def initialize(msg: 'A Qiita API returns a non-succeeded status.', response: nil)
-    msg += " Status code: #{response.status}, Response body: #{JSON.parse(response.body)}" unless response.nil?
+  def initialize(msg: 'A Qiita API returns a non-succeeded status.', data: nil)
+    unless data.nil?
+      msg += " Status code: #{data[:response].status}," \
+             " Response body: #{JSON.parse(data[:response].body)}," \
+             " Header: #{data[:header]}," \
+             " Mode: \"#{data[:mode]}\", Path: \"#{data[:path]}\""
+    end
+
     super(msg)
   end
 end
