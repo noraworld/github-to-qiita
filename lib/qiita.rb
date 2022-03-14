@@ -41,6 +41,7 @@ class Qiita
       raise QiitaAPIError.new(
         data: {
           response: response,
+          content: @content,
           header: @header,
           mode: @mode,
           path: @path

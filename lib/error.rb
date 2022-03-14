@@ -68,14 +68,27 @@ class InvalidQiitaItemIDError < StandardError
 end
 
 class QiitaAPIError < StandardError
+  TRUNCATED_LENGTH = 100
+  OMISSION = '...'
+
   def initialize(msg: 'A Qiita API returns a non-succeeded status.', data: nil)
     unless data.nil?
       msg += " Status code: #{data[:response].status}," \
              " Response body: #{JSON.parse(data[:response].body)}," \
+             " Content: #{truncate_content(data[:content])}," \
              " Header: #{data[:header]}," \
-             " Mode: \"#{data[:mode]}\", Path: \"#{data[:path]}\""
+             " Mode: \"#{data[:mode]}\"," \
+             " Path: \"#{data[:path]}\""
     end
 
     super(msg)
+  end
+
+  private
+
+  def truncate_content(content)
+    omission = content.length > TRUNCATED_LENGTH ? OMISSION : ''
+
+    "#{content.to_json.chop[0..TRUNCATED_LENGTH]}#{omission}\""
   end
 end
