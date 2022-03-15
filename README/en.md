@@ -11,7 +11,7 @@ The setup is easy. You can setup a workflow by following the instructions below.
 ### Generate a Qiita access token
 Navigate to [the Qiita access token generation page](https://qiita.com/settings/tokens/new).
 
-![](screenshots/generate_qiita_access_token.png)
+![](/screenshots/generate_qiita_access_token.png)
 
 Enter the following information, and click the `Generate token` button.
 
@@ -22,7 +22,7 @@ Enter the following information, and click the `Generate token` button.
 
 After generating your new access token, it should be going to appear on your screen. Then copy it.
 
-![](screenshots/qiita_access_token.png)
+![](/screenshots/qiita_access_token.png)
 
 Note that it can be shown only once. If you lose it, regenerate it again.
 
@@ -31,7 +31,7 @@ Note that it can be shown only once. If you lose it, regenerate it again.
 ### Set your Qiita access token to your repository
 Navigate to the Actions secrets creation page, which is accessible at `https://github.com/<USERNAME>/<REPONAME>/settings/secrets/actions/new`.
 
-![](screenshots/actions_secrets.png)
+![](/screenshots/actions_secrets.png)
 
 Enter the following information, and click the `Add secret` button.
 

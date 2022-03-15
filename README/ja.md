@@ -11,7 +11,7 @@ GitHub-to-Qiita を使用すると、Qiita の記事を GitHub リポジトリ�
 ### Qiita アクセストークンの生成
 [Qiita のアクセストークン生成ページ](https://qiita.com/settings/tokens/new) にアクセスします。
 
-![](screenshots/generate_qiita_access_token.png)
+![](/screenshots/generate_qiita_access_token.png)
 
 以下の情報を入力し、トークン生成ボタンをクリックします。
 
@@ -22,7 +22,7 @@ GitHub-to-Qiita を使用すると、Qiita の記事を GitHub リポジトリ�
 
 アクセストークンを生成すると画面に表示されるのでコピーしておきます。
 
-![](screenshots/qiita_access_token.png)
+![](/screenshots/qiita_access_token.png)
 
 アクセストークンは一度しか表示されません。わからなくなった場合は再生成してください。
 
@@ -31,7 +31,7 @@ GitHub-to-Qiita を使用すると、Qiita の記事を GitHub リポジトリ�
 ### Qiita アクセストークンをリポジトリに設定
 リポジトリのシークレット作成ページにアクセスします。`https://github.com/<USERNAME>/<REPONAME>/settings/secrets/actions/new` という URL でアクセスできます。
 
-![](screenshots/actions_secrets.png)
+![](/screenshots/actions_secrets.png)
 
 以下の情報を入力し、`Add secret` ボタンをクリックします。
 
