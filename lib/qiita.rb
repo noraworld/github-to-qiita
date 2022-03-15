@@ -37,7 +37,7 @@ class Qiita
       connection.patch(&request_params)
     end
 
-    unless response.status >= 200 && response.status < 300
+    unless response.success?
       raise QiitaAPIError.new(
         data: {
           response: response,
