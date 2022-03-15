@@ -13,19 +13,19 @@ class MappingFilepathNotFoundError < StandardError
 end
 
 class InvalidHeaderTitleError < StandardError
-  def initialize(msg: 'A title of an article is missing or invalid.')
+  def initialize(msg: 'A title of an article is invalid.')
     super(msg)
   end
 end
 
 class InvalidHeaderTopicsError < StandardError
-  def initialize(msg: 'Topics of an article are missing or invalid.')
+  def initialize(msg: 'Topics of an article are invalid.')
     super(msg)
   end
 end
 
 class InvalidHeaderPublishedError < StandardError
-  def initialize(msg: 'A published flag of an article is missing or invalid.')
+  def initialize(msg: 'A published flag of an article is invalid.')
     super(msg)
   end
 end

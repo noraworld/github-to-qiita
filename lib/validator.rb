@@ -15,9 +15,9 @@ module Validator
 
   # Check required header params
   def header(params)
-    raise InvalidHeaderTitleError unless title_valid?(params['title'])
-    raise InvalidHeaderTopicsError unless topics_valid?(params['topics'])
-    raise InvalidHeaderPublishedError unless published_valid?(params['published'])
+    title(params['title'])
+    topics(params['topics'])
+    published(params['published'])
   end
 
   def mode(param)
@@ -30,28 +30,39 @@ module Validator
 
   private
 
-  def title_valid?(param)
-    return false if param.nil?
-    return false unless param.is_a?(String)
-    return false if param.empty?
-
-    true
+  def title(param)
+    raise InvalidHeaderTitleError.new(msg: 'A title of an article is missing.') if param.nil?
+    raise InvalidHeaderTitleError.new(msg: 'A title of an article must be a string.') unless param.is_a?(String)
+    raise InvalidHeaderTitleError.new(msg: 'A title of an article must not be empty.') if param.empty?
   end
 
-  def topics_valid?(params)
-    return false if params.nil?
-    return false unless params.is_a?(Array)
-    return false if params.empty?
-    return false unless params.all? { |element| element.is_a?(String) }
-    return false if params.any? { |element| element.empty? }
+  def topics(params)
+    raise InvalidHeaderTopicsError.new(msg: 'Topics of an article are missing.') if params.nil?
+    raise InvalidHeaderTopicsError.new(msg: 'Topics of an article must be an array.') unless params.is_a?(Array)
+    raise InvalidHeaderTopicsError.new(msg: 'Topics of an article must not be empty.') if params.empty?
 
-    true
+    unless params.all? { |element| element.is_a?(String) }
+      raise InvalidHeaderTopicsError.new(msg: 'All the elements of topics must be a string.')
+    end
+
+    if params.any? { |element| element.empty? }
+      raise InvalidHeaderTopicsError.new(msg: 'The elements of topics must not be empty.')
+    end
+
+    if (params.count - params.uniq.count).positive?
+      raise InvalidHeaderTopicsError.new(msg: 'There are duplicated topics.')
+    end
+
+    if params.any? { |param| param.include?(' ') }
+      raise InvalidHeaderTopicsError.new(msg: 'A topic including spaces is not acceptable.')
+    end
   end
 
-  def published_valid?(param)
-    return false if param.nil?
-    return false if param != true && param != false
+  def published(param)
+    raise InvalidHeaderPublishedError.new(msg: 'A published flag of an article is missing.') if param.nil?
 
-    true
+    if param != true && param != false
+      raise InvalidHeaderPublishedError.new(msg: 'A published flag of an article must be true or false.')
+    end
   end
 end
