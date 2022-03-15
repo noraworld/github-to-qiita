@@ -4,7 +4,8 @@ require 'faraday'
 
 class Qiita
   API_BASE_URL = 'https://qiita.com'
-  API_ITEM_ENDPOINT = '/api/v2/items'
+  API_VERSION = 'v2'
+  API_ITEM_ENDPOINT = "/api/#{API_VERSION}/items"
 
   # @content: String: A content of an article
   # @header:  Hash:   A YAML header of an article
