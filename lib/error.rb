@@ -12,6 +12,12 @@ class MappingFilepathNotFoundError < StandardError
   end
 end
 
+class InvalidStrictError < StandardError
+  def initialize(msg: 'The env STRICT is invalid.')
+    super(msg)
+  end
+end
+
 class InvalidHeaderTitleError < StandardError
   def initialize(msg: 'A title of an article is invalid.')
     super(msg)

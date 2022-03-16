@@ -31,10 +31,9 @@ class Qiita
   def publish
     connection = Faraday.new(API_BASE_URL)
 
-    response = case @mode
-    when 'create'
+    response = if create?
       connection.post(&request_params)
-    when 'update'
+    elsif update?
       connection.patch(&request_params)
     end
 
@@ -48,8 +47,13 @@ class Qiita
       )
     end
 
-    JSON.parse(response.body)
+    new_item_id = JSON.parse(response.body)['id']
+    update_mapping_file(new_item_id) if new_item_id && create?
+
+    true
   end
+
+  private
 
   # Update a mapping file
   def update_mapping_file(item_id)
@@ -60,8 +64,6 @@ class Qiita
       file.puts "#{@path}, #{item_id}"
     end
   end
-
-  private
 
   def request_params
     Proc.new do |request|
@@ -75,7 +77,11 @@ class Qiita
   end
 
   def request_url
-    id = @mode == 'update' ? "/#{item_id}" : nil
+    id = if create?
+      nil
+    elsif update?
+      "/#{item_id}"
+    end
 
     "#{API_ITEM_ENDPOINT}#{id}"
   end
@@ -90,9 +96,25 @@ class Qiita
       title: @header['title']
     }.freeze
 
-    body = body.merge(tweet: public?) if @mode == 'create'
+    body = body.merge(tweet: public?) if create?
 
     body.to_json
+  end
+
+  def create?
+    return true if @mode == 'create'
+
+    # Publish as a new article if mapping information is missing but
+    # ENV['STRICT'] is set to 'false'
+    return true if @mode == 'update' && item_id.nil? && ENV['STRICT'] == 'false'
+
+    false
+  end
+
+  def update?
+    return true if @mode == 'update' && item_id
+
+    false
   end
 
   def public?
@@ -117,10 +139,21 @@ class Qiita
 
   # Get a Qiita item ID corresponding to an article path
   def item_id
-    # An error handling
-    raise QiitaItemIDNotFoundError if mappings.grep(/\A^#{Regexp.escape(@path)}/).empty?
+    if mappings.grep(/\A^#{Regexp.escape(@path)}/).empty?
+      # If mapping information is missing, and ENV['STRICT'] is set to
+      # 'true', then raise an error
+      #
+      # If mapping information is missing, but ENV['STRICT'] is set to
+      # 'false', then return nil instead
+      #
+      raise QiitaItemIDNotFoundError if ENV['STRICT'] == 'true'
+      return nil
+    end
+
     raise QiitaItemIDDuplicationError if mappings.grep(/\A^#{Regexp.escape(@path)}/).length != 1
     raise QiitaItemIDNotMatchedError if mappings.grep(/\A^#{Regexp.escape(@path)}/).first.split.length != 2
+
+    # TODO: Use Validator.item_id
     if mappings.grep(/\A^#{Regexp.escape(@path)}/).first.split.last.match(/\A[0-9a-f]{20}\z/).nil?
       raise InvalidQiitaItemIDError
     end

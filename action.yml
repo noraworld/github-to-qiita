@@ -16,6 +16,10 @@ inputs:
     description: "Specify any file path in which you want to put the mapping file"
     required: false
     default: "mapping.txt"
+  strict:
+    description: "Specify whether the strict mode is on or off"
+    required: false
+    default: false
   added_files:
     description: "Get added files"
   modified_files:
@@ -63,6 +67,7 @@ runs:
       env:
         QIITA_ACCESS_TOKEN: ${{ inputs.qiita_access_token }}
         MAPPING_FILEPATH: ${{ inputs.mapping_filepath }}
+        STRICT: ${{ inputs.strict }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
         ADDED_FILES: ${{ steps.get-added-files.outputs.files }}
         MODIFIED_FILES: ${{ steps.get-modified-files.outputs.files }}

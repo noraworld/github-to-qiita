@@ -11,6 +11,11 @@ module Validator
   def env
     raise QiitaAccessTokenNotFoundError if ENV['QIITA_ACCESS_TOKEN'].nil? || ENV['QIITA_ACCESS_TOKEN'].empty?
     raise MappingFilepathNotFoundError if ENV['MAPPING_FILEPATH'].nil? || ENV['MAPPING_FILEPATH'].empty?
+    raise InvalidStrictError.new(msg: 'The env STRICT is missing.') if ENV['STRICT'].nil? || ENV['STRICT'].empty?
+
+    if ENV['STRICT'] != 'true' && ENV['STRICT'] != 'false'
+      raise InvalidStrictError.new(msg: 'The env STRICT must be true or false')
+    end
   end
 
   # Check required header params

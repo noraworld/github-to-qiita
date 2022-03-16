@@ -23,8 +23,7 @@ Validator.env
 ENV['ADDED_FILES']&.split&.each do |path|
   article = Article.new(path: path)
   qiita = Qiita.new(content: article.content, header: YAML.safe_load(article.header), mode: 'create', path: path)
-  response_body = qiita.publish
-  qiita.update_mapping_file(response_body['id'])
+  qiita.publish
 end
 
 ENV['MODIFIED_FILES']&.split&.each do |path|
