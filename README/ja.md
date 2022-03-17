@@ -61,10 +61,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Publish to Qiita"
-        uses: noraworld/github-to-qiita@v0.2.0
+        uses: noraworld/github-to-qiita@v1.0.0
         with:
           dir: "articles"
           qiita_access_token: ${{ secrets.QIITA_ACCESS_TOKEN }}
+          mapping_filepath: "mapping.txt"
+          strict: false
 ```
 
 上記の YAML コードの一部を以下の情報に置き換えます。
@@ -74,10 +76,16 @@ jobs:
 | `jobs.qiita.steps[*].with.dir` | Qiita に投稿したい記事が格納されているディレクトリを指定します | true | `articles` |
 | `jobs.qiita.steps[*].with.qiita_access_token` | Qiita アクセストークンを指定します (`${{ secrets.QIITA_ACCESS_TOKEN }}` で参照できます [^1]) | true | `${{ secrets.QIITA_ACCESS_TOKEN }}` |
 | `jobs.qiita.steps[*].with.mapping_filepath` | マッピングファイルのパスを指定します | false | `mapping.txt` |
+| `jobs.qiita.steps[*].with.strict` | 厳密チェックモードをオンにするかオフにするかを指定します | false | `false` |
 
 [^1]: 一つ前の手順でリポジトリに設定した環境変数名が `QIITA_ACCESS_TOKEN` である場合のみ。
 
 **WARNING:** 最新版のコードはバグを含んでいたり仕様が頻繁に変わったりする可能性があるため、`jobs.qiita.steps[*].uses` でバージョンを `@main` に設定しないでください。最新のタグのバージョンを指定することをおすすめします。タグ一覧は [Tags](/../../tags) からアクセスできます。
+
+#### 厳密チェックモードについて
+厳密チェックモードは Qiita 上に記事が見つからない、かつ、リポジトリ上の記事ファイルが追加ではなく更新された場合に、Qiita に該当記事を投稿するかどうかを指定します。厳密チェックモードがオン (`jobs.qiita.steps[*].with.strict` が `true` に設定されている) の場合、マッピングファイルが不完全なために該当する Qiita の記事が見つからず、記事ファイルが更新された場合には Qiita に投稿されません。厳密チェックモードがオフの場合は Qiita に投稿されます。
+
+厳密チェックモードをオフにすると、Qiita に該当記事が存在していても、マッピング情報が不完全であるために、新しい記事として Qiita に投稿されてしまう可能性があります。そのため、マッピング情報が不完全な場合は厳密チェックモードをオンにすることをおすすめします。ただし、新しい記事ファイルをプッシュした際に何らかの理由で Qiita への投稿が失敗した場合に、手動で Qiita に投稿しない限りはその記事が投稿されることがない点にご注意ください。この問題を回避したい場合は `jobs.qiita.steps[*].with.strict` を `false` に設定することをご検討ください。
 
 ---
 
@@ -148,6 +156,7 @@ ADDED_FILES="articles/test01.md"
 MODIFIED_FILES="articles/test02.md"
 MAPPING_FILEPATH="mapping.txt"
 QIITA_ACCESS_TOKEN="7f6c7aec310ded84ae3acfe8f920cb1c7556c7d3" # これはサンプル値です!!
+STRICT="true"
 ```
 
 | 環境変数名 | 説明 | 必須かどうか |
@@ -156,6 +165,7 @@ QIITA_ACCESS_TOKEN="7f6c7aec310ded84ae3acfe8f920cb1c7556c7d3" # これはサン�
 | `MODIFIED_FILES` | 編集される記事のパス | false |
 | `MAPPING_FILEPATH` | マッピング情報を格納するファイルのパス | true |
 | `QIITA_ACCESS_TOKEN` | Qiita アクセストークン (開発用) | true |
+| `STRICT` | 厳密チェックモードをオンにするかどうか ([厳密チェックモードについて](#厳密チェックモードについて) を参照) | true |
 
 **NOTE:** 本番用とは異なる Qiita アクセストークンを使用することをおすすめします。
 
