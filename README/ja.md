@@ -99,7 +99,7 @@ jobs:
 ```yaml
 ---
 title: "Your awesome title"
-topics: ["GitHub Actions", "Ruby", "YAML"]
+topics: ["GitHubActions", "Ruby", "YAML"]
 published: true
 ---
 
@@ -109,7 +109,7 @@ Your article starts here.
 | キー | 説明 | 型 | 制約 |
 | --- | --- | --- | --- |
 | `title` | 記事のタイトルを指定します | 文字列 | |
-| `topics` | 記事のタグを指定します | 配列[文字列, <文字列, 文字列, ...>] | タグの数は 1 〜 5 個まで |
+| `topics` | 記事のタグを指定します | 配列[文字列, <文字列, 文字列, ...>] | • タグの数は 1 〜 5 個まで<br>• 要素内の文字列にスペースは含めるのは不可 |
 | `published` | 一般公開するか限定共有にするかを指定します | 真偽値 | |
 
 記事のファイルは `---` から始める必要があります。
