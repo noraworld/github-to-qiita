@@ -38,7 +38,7 @@ runs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: "3.1"
+        ruby-version: "3.1.1"
 
     - name: Install RubyGems
       run: bundle install --gemfile=$GITHUB_ACTION_PATH/Gemfile
