@@ -1,5 +1,6 @@
 # GitHub-to-Qiita
 | **English** | [日本語](/README/ja.md) |
+| ----------- | ---------------------- |
 
 GitHub-to-Qiita lets you integrate your Qiita articles with your GitHub repository. Setting up GitHub-to-Qiita and pushing your articles into your GitHub repository, they will be published to [Qiita](https://qiita.com) automatically.
 

@@ -1,5 +1,6 @@
 # GitHub-to-Qiita
 | [English](/README/en.md) | **日本語** |
+| ------------------------ | --------- |
 
 GitHub-to-Qiita を使用すると、Qiita の記事を GitHub リポジトリに統合できます。GitHub-to-Qiita を設定し、記事を GitHub リポジトリにプッシュすると、記事は自動的に [Qiita](https://qiita.com) に公開されます。
 
